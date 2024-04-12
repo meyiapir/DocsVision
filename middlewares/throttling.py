@@ -18,7 +18,7 @@ class ThrottlingMiddleware(BaseMiddleware):
             event: Message,
             data: dict[str, Any],
     ) -> Any:
-        if not isinstance(event, Message):  # TODO(donBarbos): add support CallbackQuery or Update
+        if not isinstance(event, Message):
             return await handler(event, data)
 
         if event.chat.id in self.cache:
