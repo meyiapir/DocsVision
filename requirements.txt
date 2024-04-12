@@ -1,0 +1,7 @@
+transformers~=4.39.3
+torch
+striprtf~=0.0.26
+aiogram~=3.4.1
+loguru~=0.7.2
+openai~=1.17.0
+requests~=2.31.0
