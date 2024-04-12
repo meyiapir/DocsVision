@@ -1,0 +1,21 @@
+[tool.poetry]
+name = "docsvision"
+version = "0.1.0"
+description = ""
+authors = ["martin.meyiapir <martin.meyiapir@latoken.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+striprtf = "^0.0.26"
+aiogram = "^3.4.1"
+loguru = "^0.7.2"
+openai = "^1.17.0"
+requests = "^2.31.0"
+pydantic-settings = "^2.2.1"
+sqlalchemy = "^2.0.29"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

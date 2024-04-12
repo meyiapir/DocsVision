@@ -2,7 +2,7 @@ from aiogram import Bot, Dispatcher
 from aiogram.enums import ParseMode
 from aiogram.fsm.storage.redis import DefaultKeyBuilder, RedisStorage
 
-from core.config import settings
+from bot.core.config import settings
 
 token = settings.BOT_TOKEN
 
