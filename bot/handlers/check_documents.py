@@ -1,13 +1,13 @@
 import os
+import io
 
 from aiogram import Bot, Router, types, F
 from aiogram.enums import ParseMode
 from aiogram.fsm.context import FSMContext
-from aiogram.types import FSInputFile
+from aiogram.types import FSInputFile, InputFile
 from loguru import logger
 
 from bot.core.config import settings
-from bot.filters.document import DocumentFilter
 from bot.keyboards.inline.approve_end_file_send import approve_end_file_send_keyboard
 from bot.keyboards.inline.approve_types import approve_types_keyboard
 from bot.keyboards.inline.back_to_files import back_to_files_keyboard
@@ -15,6 +15,8 @@ from bot.keyboards.inline.end_file_send import end_file_send_keyboard
 from bot.keyboards.inline.start import start_keyboard
 from bot.keyboards.inline.type_params import type_params_keyboard
 from bot.states.user import UserState
+
+from bot.lib.rtf_parser import parse_rtf_header
 
 router = Router(name="check_documents")
 
@@ -132,11 +134,15 @@ async def calculate_files(call: types.CallbackQuery, bot: Bot, state: FSMContext
 
     file_ids = data.get('docs')
 
-    #upload
+    response = {doc_type: 0 for doc_type in settings.DOC_TYPES_DICT}
 
-    #get resp
-
-    response = {'proxy': 3}
+    for file_id in file_ids:
+        file = io.BytesIO()
+        await bot.download(file_id, file)
+        file.seek(0)
+        parsed = parse_rtf_header(file.read().decode('utf-8'))
+        r = 'proxy'
+        response[r] += 1
 
     res_message = ''
 
