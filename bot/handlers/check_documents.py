@@ -16,8 +16,6 @@ from bot.keyboards.inline.start import start_keyboard
 from bot.keyboards.inline.type_params import type_params_keyboard
 from bot.states.user import UserState
 
-from bot.lib.rtf_parser import parse_rtf_header
-
 router = Router(name="check_documents")
 
 
