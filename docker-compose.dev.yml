@@ -10,9 +10,20 @@ services:
       - .env
     networks:
       - app
+    depends_on:
+      - mongodb
     volumes:
       - ./bot:/usr/src/app/bot
+  mongodb:
+    image: mongo:6-jammy
+    ports:
+      - '27017:27017'
+    volumes:
+      - dbdata6:/data/db
 
 networks:
   app:
     driver: bridge
+
+volumes:
+  dbdata6:

@@ -18,7 +18,11 @@ class BotSettings(EnvBaseSettings):
     RATE_LIMIT: int | float = 0.5
 
 
-class Settings(BotSettings):
+class MongoSettings(EnvBaseSettings):
+    MONGODB_URL: str
+
+
+class Settings(BotSettings, MongoSettings):
     DOC_TYPES_DICT: dict[str, str] = {
         "proxy": "Доверенность",
         "contract": "Договор",

@@ -16,6 +16,7 @@ pydantic-settings = "^2.2.1"
 sqlalchemy = "^2.0.29"
 cachetools = "^5.3.3"
 gradio = "^4.26.0"
+pymongo = "^4.6.3"
 
 
 [build-system]
