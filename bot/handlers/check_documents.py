@@ -14,6 +14,7 @@ from bot.keyboards.inline.back_to_files import back_to_files_keyboard
 from bot.keyboards.inline.end_file_send import end_file_send_keyboard
 from bot.keyboards.inline.start import start_keyboard
 from bot.keyboards.inline.type_params import type_params_keyboard
+from bot.lib.rtf_parser import parse_rtf_header
 from bot.states.user import UserState
 
 router = Router(name="check_documents")
