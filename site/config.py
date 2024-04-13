@@ -7,7 +7,7 @@ DOC_TYPES_DICT: dict[str, str] = {
     "invoice": "Счёт",
     "bill": "Приложение",
     "arrangement": "Соглашение",
-    "contractoffer": "Д-вор оферты",
+    "contractoffer": "Договор оферты",
     "statute": "Устав",
     "determination": "Решение"
 }
