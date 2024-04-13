@@ -1,5 +1,5 @@
-from bot.lib.mongo.client import Client
-from bot.lib.hash import text_to_hash
+from model_api.lib.mongo.client import Client
+from model_api.lib.hash import text_to_hash
 
 
 class Database(Client):
