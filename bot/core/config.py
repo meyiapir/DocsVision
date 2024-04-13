@@ -23,6 +23,7 @@ class MongoSettings(EnvBaseSettings):
 
 
 class Settings(BotSettings, MongoSettings):
+    API_HOST: str
     DOC_TYPES_DICT: dict[str, str] = {
         "proxy": "Доверенность",
         "contract": "Договор",

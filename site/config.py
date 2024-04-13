@@ -11,3 +11,5 @@ DOC_TYPES_DICT: dict[str, str] = {
     "statute": "Устав",
     "determination": "Решение"
 }
+
+API_HOST = ''

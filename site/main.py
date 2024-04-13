@@ -2,7 +2,7 @@ import io
 import gradio as gr
 
 from bot.lib.rtf_parser import parse_rtf_header
-from config import DOC_TYPES_DICT
+from config import DOC_TYPES_DICT, API_HOST
 
 
 def greet(*args):
