@@ -5,9 +5,9 @@ from aiogram.utils.keyboard import InlineKeyboardBuilder
 from bot.core.config import settings
 
 
-def start_keyboard() -> InlineKeyboardMarkup:
+def start_keyboard(retry=False) -> InlineKeyboardMarkup:
     buttons = [
-        [InlineKeyboardButton(text="Проверить документы 🔎", callback_data="check_documents")],
+        [InlineKeyboardButton(text=("Попробовать ещё раз 🔁" if retry else "Проверить документы 🔎"), callback_data="check_documents")],
     ]
 
     keyboard = InlineKeyboardBuilder(markup=buttons)

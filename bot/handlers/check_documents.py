@@ -12,6 +12,7 @@ from bot.keyboards.inline.approve_end_file_send import approve_end_file_send_key
 from bot.keyboards.inline.approve_types import approve_types_keyboard
 from bot.keyboards.inline.back_to_files import back_to_files_keyboard
 from bot.keyboards.inline.end_file_send import end_file_send_keyboard
+from bot.keyboards.inline.start import start_keyboard
 from bot.keyboards.inline.type_params import type_params_keyboard
 from bot.states.user import UserState
 
@@ -132,6 +133,37 @@ async def clear_documents(call: types.CallbackQuery, bot: Bot, state: FSMContext
 async def calculate_files(call: types.CallbackQuery, bot: Bot, state: FSMContext) -> None:
     await state.set_state(None)
 
-    await bot.edit_message_caption(call.from_user.id, call.message.message_id,
-                                caption="res",
-                                parse_mode=ParseMode.HTML)
+    data = await state.get_data()
+
+    file_ids = data.get('docs')
+
+    #upload
+
+    #get resp
+
+    response = {'proxy': 3}
+
+    res_message = ''
+
+    for doc_type in settings.DOC_TYPES_DICT:
+        if response.get(doc_type):
+            value = response[doc_type]
+        else:
+            value = 0
+
+        if value != data.get(doc_type):
+            res_message += f"<b>{settings.DOC_TYPES_DICT[doc_type]}:</b> {value} шт., должно быть {data.get(doc_type)}\n"
+
+    if res_message:
+        await bot.edit_message_caption(call.from_user.id, call.message.message_id,
+                                    caption=res_message,
+                                    parse_mode=ParseMode.HTML,
+                                    reply_markup=start_keyboard(retry=True))
+    else:
+        await bot.edit_message_caption(call.from_user.id, call.message.message_id,
+                                       caption="Все документы в порядке!",
+                                       parse_mode=ParseMode.HTML,
+                                       reply_markup=start_keyboard())
+
+        await state.update_data({'docs': []})
+        await state.clear()
