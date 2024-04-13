@@ -151,8 +151,13 @@ async def calculate_files(call: types.CallbackQuery, bot: Bot, state: FSMContext
         else:
             value = 0
 
+        if data.get(doc_type):
+            required_value = data[doc_type]
+        else:
+            required_value = 0
+
         if value != data.get(doc_type):
-            res_message += f"<b>{settings.DOC_TYPES_DICT[doc_type]}:</b> {value} шт., должно быть {data.get(doc_type)}\n"
+            res_message += f"<b>{settings.DOC_TYPES_DICT[doc_type]}:</b> {value} шт., должно быть {required_value}\n"
 
     if res_message:
         await bot.edit_message_caption(call.from_user.id, call.message.message_id,
