@@ -79,30 +79,25 @@ async def files_notif(call: types.CallbackQuery, bot: Bot, state: FSMContext) ->
                                 parse_mode=ParseMode.HTML,
                                 reply_markup=end_file_send_keyboard())
 
+    await state.update_data(docs=[])
+
     await state.update_data(doc_msg_id=msg_id.message_id)
 
 
-@router.message(DocumentFilter(), UserState.send_files)
+@router.message(F.document, UserState.send_files)
 async def get_documents(message: types.Message, bot: Bot, state: FSMContext) -> None:
-    document = message.document
     data = await state.get_data()
+    docs = data.get('docs') or []
 
-    if data.get('docs'):
-        data['docs'].append(document.file_id)
-    else:
-        data['docs'] = [document.file_id]
+    docs.append(message.document.file_id)
 
-    await state.update_data(data)
     await bot.delete_message(message.from_user.id, data.get('doc_msg_id'))
-
     menu_image = FSInputFile(f'{os.path.curdir}/bot/files/static/main_menu.jpg')
-
-    msg_id = await bot.send_photo(message.from_user.id, menu_image, caption=f'Отправьте документы',
+    msg_id = await bot.send_photo(message.from_user.id, menu_image, caption='Отправьте документы',
                                          parse_mode=ParseMode.HTML,
                                          reply_markup=end_file_send_keyboard())
 
-    await state.update_data(doc_msg_id=msg_id.message_id)
-
+    await state.update_data(doc_msg_id=msg_id.message_id, docs=docs)
 
 @router.callback_query(F.data.startswith('end_file_send'))
 async def approve_end_file_send(call: types.CallbackQuery, bot: Bot, state: FSMContext) -> None:
