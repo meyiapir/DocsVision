@@ -12,7 +12,6 @@ services:
       - app
     volumes:
       - ./bot:/usr/src/app/bot
-      - ./migrations:/usr/src/app/migrations
 
 networks:
   app:

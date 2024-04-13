@@ -1,5 +1,6 @@
 from aiogram.fsm.state import State, StatesGroup
 
 
-class UserMainMenu(StatesGroup):
-    menu = State()
+class UserState(StatesGroup):
+    set_types = State()
+    send_files = State()

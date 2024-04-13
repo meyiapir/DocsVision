@@ -2,6 +2,6 @@ from aiogram.filters import BaseFilter
 from aiogram.types import Message
 
 
-class ImageFilter(BaseFilter):
+class DocumentFilter(BaseFilter):
     async def __call__(self, message: Message) -> bool:
-        return bool(message.photo)
+        return bool(message.document)

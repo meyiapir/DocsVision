@@ -12,11 +12,9 @@ WORKDIR /usr/src/app
 COPY . .
 
 RUN apk update \
-    && apk add --no-cache gcc musl-dev postgresql-dev libffi-dev make postgresql-client \
     && pip install --no-cache-dir "poetry==$POETRY_VERSION" \
-    && poetry install --without admin --without dev --no-root \
+    && poetry install \
     && pip uninstall -y poetry \
-    && pybabel compile -d bot/locales \
     && rm -rf /home/appuser/.cache \
     && rm -rf $POETRY_CACHE_DIR \
     && rm -rf /usr/src/app/{__pycache__,admin} \
@@ -26,6 +24,5 @@ RUN apk update \
 
 USER appuser
 
-CMD alembic upgrade head && \
-    python -m bot
+CMD python -m bot
 
