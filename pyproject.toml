@@ -15,6 +15,7 @@ requests = "^2.31.0"
 pydantic-settings = "^2.2.1"
 sqlalchemy = "^2.0.29"
 cachetools = "^5.3.3"
+gradio = "^4.26.0"
 
 
 [build-system]
