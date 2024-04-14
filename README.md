@@ -10,6 +10,10 @@
 alembic revision --autogenerate -m "{about}"
 ```
 
+- download model
+```bash
+wget https://huggingface.co/meyiapir/DocsVision/resolve/main/full_model_epoch_10.pt?download=true
+```
 
 ### 🐳 Running in Docker _(recommended method)_
 
@@ -19,10 +23,4 @@ alembic revision --autogenerate -m "{about}"
 
     ```bash
     docker compose -f docker-compose.dev.yml up -d --build
-    ```
-
--   make migrations
-
-    ```bash
-    docker compose exec bot alembic upgrade head
     ```
