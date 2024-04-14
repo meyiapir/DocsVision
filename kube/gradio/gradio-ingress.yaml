@@ -1,0 +1,21 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  namespace: dv-prod
+  name: gradio-ingress
+spec:
+  tls:
+    - hosts:
+        - test.meyapir.ru
+      secretName: my-tls-secret
+  rules:
+    - host: test.meyapir.ru
+      http:
+        paths:
+          - path: /gradio
+            pathType: Prefix
+            backend:
+              service:
+                name: gradio-service
+                port:
+                  number: 80

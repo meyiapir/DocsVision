@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: dv-prod
+  name: gradio
+  labels:
+    app: gradio
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: gradio
+  template:
+    metadata:
+      labels:
+        app: gradio
+    spec:
+      containers:
+        - name: gradio
+          image: cr.selcloud.ru/dv/gradio-dv:latest
+          ports:
+            - containerPort: 8080
+      imagePullSecrets:
+        - name: my-registry-cred
