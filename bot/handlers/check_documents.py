@@ -91,7 +91,7 @@ async def get_documents(message: types.Message, bot: Bot, state: FSMContext) -> 
     data = await state.get_data()
     docs = data.get('docs') or []
 
-    docs.append(message.document.file_id)
+    docs.append((message.document.file_id, message.document.file_name))
 
     await bot.delete_message(message.from_user.id, data.get('doc_msg_id'))
     menu_image = FSInputFile(f'{os.path.curdir}/bot/files/static/main_menu.jpg')
@@ -132,17 +132,20 @@ async def calculate_files(call: types.CallbackQuery, bot: Bot, state: FSMContext
 
     data = await state.get_data()
 
-    file_ids = data.get('docs')
+    files = data.get('docs')
 
     response = {doc_type: 0 for doc_type in settings.DOC_TYPES_DICT}
 
-    for file_id in file_ids:
+    for file_item in files:
+        file_id, filename = file_item
         file = io.BytesIO()
         await bot.download(file_id, file)
         file.seek(0)
         parsed = parse_rtf_header(file.read().decode('utf-8'))
 
         counter = 3
+
+        files_types = {}
 
         while counter > 0:
             logger.debug(f'{settings.API_HOST}/predict')
@@ -153,6 +156,8 @@ async def calculate_files(call: types.CallbackQuery, bot: Bot, state: FSMContext
             counter -= 1
 
         response[r] += 1
+
+        files_types.update({filename: settings.DOC_TYPES_DICT[r]})
 
     res_message = ''
 
@@ -170,6 +175,11 @@ async def calculate_files(call: types.CallbackQuery, bot: Bot, state: FSMContext
         if value != required_value:
             res_message += f"<b>{settings.DOC_TYPES_DICT[doc_type]}:</b> {value} шт., должно быть {required_value}\n"
 
+    if not res_message:
+        res_message = "Все документы в порядке!"
+
+    res_message += ('\n\n' + '\n'.join([f'{item[0]}: <b>{item[1]}</b>' for item in files_types.items()]))
+
     if res_message:
         await bot.edit_message_caption(call.from_user.id, call.message.message_id,
                                     caption=res_message,
@@ -177,7 +187,7 @@ async def calculate_files(call: types.CallbackQuery, bot: Bot, state: FSMContext
                                     reply_markup=start_keyboard(retry=True))
     else:
         await bot.edit_message_caption(call.from_user.id, call.message.message_id,
-                                       caption="Все документы в порядке!",
+                                       caption=res_message,
                                        parse_mode=ParseMode.HTML,
                                        reply_markup=start_keyboard())
 
