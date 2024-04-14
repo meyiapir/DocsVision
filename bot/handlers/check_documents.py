@@ -1,6 +1,7 @@
 import os
 import io
 
+import requests
 from aiogram import Bot, Router, types, F
 from aiogram.enums import ParseMode
 from aiogram.fsm.context import FSMContext
@@ -140,7 +141,17 @@ async def calculate_files(call: types.CallbackQuery, bot: Bot, state: FSMContext
         await bot.download(file_id, file)
         file.seek(0)
         parsed = parse_rtf_header(file.read().decode('utf-8'))
-        r = 'proxy'
+
+        counter = 3
+
+        while counter > 0:
+            logger.debug(f'{settings.API_HOST}/predict')
+            r = requests.get(f'{settings.API_HOST}/predict', params=dict(text=parsed))
+            if r.status_code == 200:
+                r = list(settings.DOC_TYPES_DICT.keys())[int(r.content)]
+                break
+            counter -= 1
+
         response[r] += 1
 
     res_message = ''

@@ -23,7 +23,7 @@ class MongoSettings(EnvBaseSettings):
 
 
 class Settings(BotSettings, MongoSettings):
-    API_HOST: str
+    API_HOST: str = 'https://73gfds3j6qml8e-8080.proxy.runpod.net'
     DOC_TYPES_DICT: dict[str, str] = {
         "proxy": "Доверенность",
         "contract": "Договор",

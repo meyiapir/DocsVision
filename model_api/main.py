@@ -1,5 +1,5 @@
 import uvicorn
-from fastapi import FastAPI
+from fastapi import FastAPI, Request
 from model_api.lib.lib import Database
 
 from model_api.model import InferenceModel
@@ -10,8 +10,11 @@ app = FastAPI()
 inference = InferenceModel("models/full_model_epoch_10.pt")
 
 
-@app.get("/predict")
-async def classify(text: str):
+@app.post("/predict")
+async def classify(request: Request):
+    form = await request.form()
+    text = form.get('text')
+
     doc_type = db.get_doc_type(text)
     if doc_type:
         return doc_type

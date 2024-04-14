@@ -12,4 +12,4 @@ DOC_TYPES_DICT: dict[str, str] = {
     "determination": "Решение"
 }
 
-API_HOST = ''
+API_HOST = 'https://73gfds3j6qml8e-8080.proxy.runpod.net'

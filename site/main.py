@@ -1,5 +1,6 @@
 import io
 import gradio as gr
+import requests
 
 from bot.lib.rtf_parser import parse_rtf_header
 from config import DOC_TYPES_DICT, API_HOST
@@ -24,7 +25,16 @@ def greet(*args):
         with open(file_path, 'r', encoding='utf-8') as file:
             file.seek(0)
             parsed = parse_rtf_header(file.read())
-        r = 'proxy'
+
+            counter = 3
+
+            while counter > 0:
+                r = requests.get(f'{API_HOST}/predict', params=dict(text=parsed))
+                if r.status_code == 200:
+                    r = list(DOC_TYPES_DICT.keys())[int(r.content)]
+                    break
+                counter -= 1
+
         response[r] += 1
 
     for doc_type in DOC_TYPES_DICT:
