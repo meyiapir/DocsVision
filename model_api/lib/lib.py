@@ -1,4 +1,4 @@
-from model_api.lib.mongo.client import Client
+from model_api.lib.client import Client
 from model_api.lib.hash import text_to_hash
 
 

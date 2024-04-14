@@ -1,11 +1,10 @@
 from pymongo import MongoClient
-from model_api.config import MONGODB_URL
 
 
 class Client:
-    def __init__(self, db_name):
+    def __init__(self, db_name, mongodb_url):
         self.db_name = db_name
-        self.client = MongoClient(MONGODB_URL)
+        self.client = MongoClient(mongodb_url)
 
     def insert(self, collection_name, data: list[dict] | dict):
         collection_name = self.client[self.db_name][collection_name]

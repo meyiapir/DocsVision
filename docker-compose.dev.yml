@@ -14,6 +14,17 @@ services:
       - mongodb
     volumes:
       - ./bot:/usr/src/app/bot
+
+  gradio:
+    build:
+      context: .
+      dockerfile: ./site/Dockerfile
+    restart: no
+    networks:
+      - app
+    volumes:
+      - ./site:/usr/src/app/site
+
   mongodb:
     image: mongo:6-jammy
     ports:

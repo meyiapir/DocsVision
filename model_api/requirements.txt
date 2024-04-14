@@ -1,0 +1,6 @@
+requests
+pymongo
+torch
+transformers
+fastapi
+uvicorn
