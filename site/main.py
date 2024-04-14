@@ -12,6 +12,9 @@ def greet(*args):
         return 'Приложите файлы'
 
     args = args[1:]
+
+    if len([x for x in args if x >= 0]) != len(args): return 'Кол-во документов не может быть отрицательным'
+
     values = dict(zip(list(DOC_TYPES_DICT.keys()), [(x if x else 0) for x in args]))
 
     if set(list(values.values())) == {0}:
@@ -68,6 +71,7 @@ demo = gr.Interface(
     fn=greet,
     inputs=inputs,
     outputs=["text"],
+    allow_flagging="never"
 )
 
 demo.launch()
