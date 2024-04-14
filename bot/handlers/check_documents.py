@@ -146,7 +146,7 @@ async def calculate_files(call: types.CallbackQuery, bot: Bot, state: FSMContext
 
         while counter > 0:
             logger.debug(f'{settings.API_HOST}/predict')
-            r = requests.get(f'{settings.API_HOST}/predict', params=dict(text=parsed))
+            r = requests.post(f'{settings.API_HOST}/predict', data=dict(text=parsed))
             if r.status_code == 200:
                 r = list(settings.DOC_TYPES_DICT.keys())[int(r.content)]
                 break

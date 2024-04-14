@@ -29,13 +29,13 @@ def greet(*args):
             counter = 3
 
             while counter > 0:
-                r = requests.get(f'{API_HOST}/predict', params=dict(text=parsed))
+                r = requests.post(f'{API_HOST}/predict', data=dict(text=parsed))
                 if r.status_code == 200:
                     r = list(DOC_TYPES_DICT.keys())[int(r.content)]
                     break
                 counter -= 1
 
-        response[r] += 1
+            response[r] += 1
 
     for doc_type in DOC_TYPES_DICT:
         if response.get(doc_type):
