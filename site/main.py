@@ -20,8 +20,9 @@ def greet(*args):
     response = {doc_type: 0 for doc_type in DOC_TYPES_DICT}
     res_message = ''
 
+    files_types = {}
+
     for file_path in file_paths:
-        print(file_path)
         with open(file_path, 'r', encoding='utf-8') as file:
             file.seek(0)
             parsed = parse_rtf_header(file.read())
@@ -29,13 +30,17 @@ def greet(*args):
             counter = 3
 
             while counter > 0:
-                r = requests.get(f'{API_HOST}/predict', params=dict(text=parsed))
+                r = requests.post(f'{API_HOST}/predict', data=dict(text=parsed))
                 if r.status_code == 200:
                     r = list(DOC_TYPES_DICT.keys())[int(r.content)]
                     break
                 counter -= 1
 
-        response[r] += 1
+            response[r] += 1
+
+            print(file_path, r)
+
+            files_types.update({file_path.split('\\')[-1]: DOC_TYPES_DICT[r]})
 
     for doc_type in DOC_TYPES_DICT:
         if response.get(doc_type):
@@ -50,6 +55,8 @@ def greet(*args):
 
     if not res_message:
         res_message = 'Все документы в порядке!'
+
+    res_message += ('\n\n' + '\n'.join([f'{item[0]}: {item[1]}' for item in files_types.items()]))
 
     return res_message
 
